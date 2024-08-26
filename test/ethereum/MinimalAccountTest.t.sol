@@ -4,6 +4,7 @@ pragma solidity ^0.8.24;
 import {Test} from "forge-std/Test.sol";
 import {MinimalAccount} from "src/ethereum/MinimalAccount.sol";
 import {DeployMinimal} from "script/DeployMinimal.s.sol";
+import {SendPackedUserOp} from "script/SendPackedUserOp.s.sol";
 import {HelperConfig} from "script/HelperConfig.s.sol";
 import {ERC20Mock as ERC20} from "@openzeppelin/contracts/mocks/token/ERC20Mock.sol";
 
@@ -12,18 +13,16 @@ contract MinimalAccountTest is Test {
     MinimalAccount minimalAccount;
     HelperConfig.NetworkConfig config;
     ERC20 usdc;
+    SendPackedUserOp sendPackedUserOp;
+
     address owner = makeAddr("owner");
     address pwner = makeAddr("pwner");
 
     function setUp() public {
         accountDeployer = new DeployMinimal();
+        sendPackedUserOp = new SendPackedUserOp();
         (minimalAccount, config) = accountDeployer.deployMinimalAccount();
         usdc = new ERC20();
-    }
-
-    function _simulateSignatureFromSender(address sender, bytes memory data) private returns (bytes memory) {
-        bytes32 hash = keccak256(data);
-        return abi.encodePacked(hash, sender);
     }
 
     function testOnwerCanExecuteCommands() public {
