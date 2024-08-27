@@ -8,7 +8,7 @@
 
 # Test Suite
 
-### `NOTE` - The current test suites are written in foundry and contain the tests of `authorization`, `access control`, t`ransfer of ETH and ERC20 tokens to & from abstract account`
+### `NOTE` - The current test suites are written in foundry and contain the tests of `authorization`, `access control`, `transfer of ETH and ERC20 tokens to & from abstract account`
 
 ## Foundry
 
