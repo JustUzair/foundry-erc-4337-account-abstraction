@@ -6,6 +6,10 @@
 
 - [Ethereum EIP-4337](https://eips.ethereum.org/EIPS/eip-4337)
 
+# Test Suite
+
+### `NOTE` - The current test suites are written in foundry and contain the tests of `authorization`, `access control`, t`ransfer of ETH and ERC20 tokens to & from abstract account`
+
 ## Foundry
 
 **Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
