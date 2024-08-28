@@ -2,16 +2,22 @@
 pragma solidity ^0.8.24;
 
 import {Test} from "forge-std/Test.sol";
-import {MinimalAccount} from "src/ethereum/MinimalAccount.sol";
+import {console2} from "forge-std/console2.sol";
+
+import {MinimalAccount, ECDSA, MessageHashUtils} from "src/ethereum/MinimalAccount.sol";
 import {DeployMinimal} from "script/DeployMinimal.s.sol";
-import {SendPackedUserOp} from "script/SendPackedUserOp.s.sol";
+import {SendPackedUserOp, PackedUserOperation} from "script/SendPackedUserOp.s.sol";
 import {HelperConfig} from "script/HelperConfig.s.sol";
+import {IEntryPoint} from "@eth-infinitism/account-abstraction/interfaces/IEntryPoint.sol";
+
 import {ERC20Mock as ERC20} from "@openzeppelin/contracts/mocks/token/ERC20Mock.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-// https://youtu.be/mmzkPz71QJs?t=5690
+// https://youtu.be/mmzkPz71QJs?t=6743
 
 contract MinimalAccountTest is Test {
+    using MessageHashUtils for bytes32;
+
     DeployMinimal accountDeployer;
     MinimalAccount minimalAccount;
     HelperConfig.NetworkConfig config;
@@ -26,6 +32,11 @@ contract MinimalAccountTest is Test {
         sendPackedUserOp = new SendPackedUserOp();
         (minimalAccount, config) = accountDeployer.deployMinimalAccount();
         usdc = new ERC20();
+
+        console2.log("Address of test contract : ", address(this));
+        console2.log("Address of minimal account owner : ", address(minimalAccount.owner()));
+        console2.log("Address of minimal account : ", address(minimalAccount));
+        console2.log("Address of usdc : ", address(usdc));
     }
 
     function test_onwerCanExecuteCommands() public {
@@ -49,6 +60,9 @@ contract MinimalAccountTest is Test {
         assertEq(usdc.balanceOf(address(minimalAccount)), 0);
     }
 
+    /*//////////////////////////////////////////////////////////////
+                        TESTING WITHOUT ENTRY POINT 
+    //////////////////////////////////////////////////////////////*/
     function test_ownerSendEthToEOA() public {
         address receiver = makeAddr("receiver");
         vm.deal(minimalAccount.owner(), 100 ether);
@@ -84,5 +98,27 @@ contract MinimalAccountTest is Test {
         vm.stopPrank();
         assertEq(usdc.balanceOf(receiver), 2e18);
         assertEq(usdc.balanceOf(address(minimalAccount)), 98e18);
+    }
+
+    /*//////////////////////////////////////////////////////////////
+                        TESTING VIA ENTRY POINT 
+    //////////////////////////////////////////////////////////////*/
+
+    function test_recoverSignedOperation() public {
+        assertEq(usdc.balanceOf(address(minimalAccount)), 0);
+        address dest = address(usdc);
+        uint256 value = 0;
+
+        bytes memory data = abi.encodeWithSelector(ERC20.mint.selector, address(minimalAccount), 100e18);
+        // data to call entry point
+        bytes memory executeCallData = abi.encodeWithSelector(MinimalAccount.execute.selector, dest, value, data);
+        vm.prank(minimalAccount.owner());
+
+        PackedUserOperation memory packedUserOp = sendPackedUserOp.generateSignedUserOperation(executeCallData, config);
+        bytes32 userOpHash = IEntryPoint(config.entryPoint).getUserOpHash(packedUserOp);
+
+        address signer = ECDSA.recover(userOpHash.toEthSignedMessageHash(), packedUserOp.signature);
+        console2.log("Signer : ", signer);
+        assert(signer == minimalAccount.owner());
     }
 }

@@ -112,6 +112,10 @@ contract HelperConfig is Script {
 
         // deploy mocks
         console2.log("Deploying mocks...");
+        console2.log("--------------------------------------------------");
+        console2.log("--------------- ANVIL TESTNET MODE ---------------");
+        console2.log("--------------------------------------------------");
+
         vm.startBroadcast(ANVIL_DEFAULT_ACCOUNT);
         EntryPoint entryPoint = new EntryPoint();
         ERC20Mock erc20Mock = new ERC20Mock();
@@ -120,6 +124,8 @@ contract HelperConfig is Script {
 
         localNetworkConfig =
             NetworkConfig({entryPoint: address(entryPoint), usdc: address(erc20Mock), account: ANVIL_DEFAULT_ACCOUNT});
+        console2.log("Anvil testnet default account : ", ANVIL_DEFAULT_ACCOUNT);
+
         return localNetworkConfig;
     }
 }
