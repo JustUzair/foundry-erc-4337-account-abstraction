@@ -17,14 +17,14 @@ contract SendPackedUserOp is Script {
 
     function run() public {}
 
-    function generateSignedUserOperation(bytes memory callData, HelperConfig.NetworkConfig memory config)
-        public
-        view
-        returns (PackedUserOperation memory userOp)
-    {
+    function generateSignedUserOperation(
+        bytes memory callData,
+        HelperConfig.NetworkConfig memory config,
+        address minimalAccount
+    ) public view returns (PackedUserOperation memory userOp) {
         // 1. Generate signed data
-        uint256 nonce = vm.getNonce(config.account);
-        userOp = _generateSignedData(callData, config.account, nonce);
+        uint256 nonce = vm.getNonce(minimalAccount) - 1;
+        userOp = _generateSignedData(callData, minimalAccount, nonce);
         // 2. Get the userOp Hash
         bytes32 userOpHash = IEntryPoint(config.entryPoint).getUserOpHash(userOp);
         // 3. Sign data, return signed data
@@ -37,7 +37,7 @@ contract SendPackedUserOp is Script {
         if (block.chainid == 31337) {
             (v, r, s) = vm.sign(ANVIL_TEST_PRIVATE_KEY, digest);
         } else {
-            (v, r, s) = vm.sign(config.account, digest);
+            (v, r, s) = vm.sign(minimalAccount, digest);
         }
         userOp.signature = abi.encodePacked(r, s, v);
         return userOp;

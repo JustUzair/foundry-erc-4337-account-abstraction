@@ -8,6 +8,7 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {MessageHashUtils} from "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol";
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import {IEntryPoint} from "@eth-infinitism/account-abstraction/interfaces/IEntryPoint.sol";
+import {SIG_VALIDATION_FAILED, SIG_VALIDATION_SUCCESS} from "lib/account-abstraction/contracts/core/Helpers.sol";
 
 contract MinimalAccount is IAccount, Ownable {
     /*//////////////////////////////////////////////////////////////
@@ -25,9 +26,6 @@ contract MinimalAccount is IAccount, Ownable {
     /*//////////////////////////////////////////////////////////////
                                 CONSTANTS 
     //////////////////////////////////////////////////////////////*/
-
-    uint256 public constant SIG_VALIDATION_SUCCESS = 1;
-    uint256 public constant SIG_VALIDATION_FAILED = 0;
 
     /*//////////////////////////////////////////////////////////////
                                 IMMUTABLES 
@@ -126,8 +124,9 @@ contract MinimalAccount is IAccount, Ownable {
         returns (uint256 validationData)
     {
         bytes32 ethSignedMessageHash = MessageHashUtils.toEthSignedMessageHash(userOpHash);
-        address signer = ECDSA.recover(ethSignedMessageHash, userOp.signature);
-        if (signer != owner()) {
+        (address signer,,) = ECDSA.tryRecover(ethSignedMessageHash, userOp.signature);
+
+        if (signer != owner() || signer == address(0)) {
             return SIG_VALIDATION_FAILED;
         }
         return SIG_VALIDATION_SUCCESS;
@@ -139,7 +138,7 @@ contract MinimalAccount is IAccount, Ownable {
      */
     function _payPrefund(uint256 missingAccountFunds) internal {
         if (missingAccountFunds > 0) {
-            (bool success,) = payable(msg.sender).call{value: missingAccountFunds, gas: gasleft()}("");
+            (bool success,) = payable(msg.sender).call{value: missingAccountFunds, gas: type(uint256).max}("");
             require(success, "MA: Prefund failed");
         }
     }
