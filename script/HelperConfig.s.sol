@@ -28,7 +28,7 @@ contract HelperConfig is Script {
     uint256 constant ZKSYNC_SEPOLIA_CHAIN_ID = 300;
     uint256 constant LOCAL_CHAIN_ID = 31337;
     // Update the BURNER_WALLET to your burner wallet!
-    address constant BURNER_WALLET = 0xA72e562f24515C060F36A2DA07e0442899D39d2c;
+    address constant BURNER_WALLET = 0xD953f370C28a3ef8490A072bF4B88010ff91Ef50;
     uint256 constant ARBITRUM_MAINNET_CHAIN_ID = 42_161;
     uint256 constant ZKSYNC_MAINNET_CHAIN_ID = 324;
     // address constant FOUNDRY_DEFAULT_WALLET = 0x1804c8AB1F12E6bbf3894d4083f33e07309d1f38;
