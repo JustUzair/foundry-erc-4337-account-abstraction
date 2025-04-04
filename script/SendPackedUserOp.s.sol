@@ -2,10 +2,13 @@
 pragma solidity ^0.8.24;
 
 import {Script} from "forge-std/Script.sol";
+import {MinimalAccount} from "../src/ethereum/MinimalAccount.sol";
 import {PackedUserOperation} from "@eth-infinitism/account-abstraction/interfaces/PackedUserOperation.sol";
 import {HelperConfig} from "script/HelperConfig.s.sol";
 import {IEntryPoint} from "@eth-infinitism/account-abstraction/interfaces/IEntryPoint.sol";
 import {MessageHashUtils} from "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol";
+import {console2} from "forge-std/console2.sol";
+import {IERC20} from "forge-std/interfaces/IERC20.sol";
 
 contract SendPackedUserOp is Script {
     using MessageHashUtils for bytes32;
@@ -15,7 +18,36 @@ contract SendPackedUserOp is Script {
     uint256 constant MAX_FEE_PER_GAS = 256;
     uint256 constant MAX_PRIORITY_FEE_PER_GAS = MAX_FEE_PER_GAS;
 
-    function run() public {}
+    function run() public {
+        address usdc = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
+        address dest = address(usdc);
+        uint256 value = 0;
+        address receiver = 0xA72e562f24515C060F36A2DA07e0442899D39d2c;
+        bytes memory approveData = abi.encodeWithSignature("approve(address,uint256)", address(receiver), UINT256_MAX);
+        bytes memory transferData = abi.encodeWithSignature("transfer(address,uint256)", address(receiver), 2e6);
+        MinimalAccount minimalAccount = MinimalAccount(payable(0x37cBB2703D0312Ae2904c2FA131970823B7b1cd7));
+
+        uint256 deployerKey;
+        address deployer;
+        string memory mnemonic = vm.envString("MNEMONIC");
+        console2.log(mnemonic);
+        (deployer, deployerKey) = deriveRememberKey(mnemonic, 0);
+
+        HelperConfig helperConfig = new HelperConfig();
+
+        HelperConfig.NetworkConfig memory config = helperConfig.getConfig();
+        // vm.startBroadcast(deployer);
+        // IERC20(usdc).approve(address(minimalAccount), UINT256_MAX);
+        // IERC20(usdc).transferFrom(config.account, address(minimalAccount), 10e6);
+        // vm.stopBroadcast();
+        vm.startBroadcast(deployer);
+
+        // approve
+        minimalAccount.execute(dest, value, approveData);
+        // check if the allowance was updated
+        minimalAccount.execute(dest, value, transferData);
+        vm.stopBroadcast();
+    }
 
     function generateSignedUserOperation(
         bytes memory callData,

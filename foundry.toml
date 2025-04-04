@@ -21,10 +21,12 @@ polygon_mainnet = "${POLYGON_MAINNET}"
 optimism_mainnet = "${OPTIMISM_MAINNET}"
 arbitrum_mainnet = "${ARBITRUM_MAINNET}"
 
-buildbear_rpc="${BUILDBEAR_RPC}"
+buildbear="${BUILDBEAR_RPC}"
 
 
 [etherscan]
+buildbear = { key = "verifyContract", url="https://rpc.buildbear.io/verify/etherscan/uzair" }
+
 polygon_amoy = { key = "${POLYGONSCAN_API}", url="https://api-amoy.polygonscan.com/api" }
 base_sepolia = { key = "${BASESCAN_API}", url ="https://api-sepolia.basescan.org/api/"}
 eth_sepolia = { key = "${ETHERSCAN_API_KEY}", url ="https://api-sepolia.etherscan.io/api"}
@@ -38,5 +40,3 @@ arbitrum_mainnet = { key = "${ARBISCAN_API}", url ="https://api.arbiscan.io/api/
 
 [profile.sourcify]
 url= "${VERIFIER_URL}"
-
-evm_version = "paris"
