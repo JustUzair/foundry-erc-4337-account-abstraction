@@ -2,7 +2,8 @@
 src = "src"
 out = "out"
 libs = ["lib"]
-
+test = 'test'
+cache_path  = 'cache_forge'
 remappings = ["@eth-infinitism/account-abstraction=lib/account-abstraction/contracts","@openzeppelin/contracts=lib/openzeppelin-contracts/contracts"]
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
 
@@ -24,19 +25,22 @@ arbitrum_mainnet = "${ARBITRUM_MAINNET}"
 buildbear="${BUILDBEAR_RPC}"
 
 
+
 [etherscan]
-buildbear = { key = "verifyContract", url="https://rpc.buildbear.io/verify/etherscan/uzair" }
+buildbear = { key = "verifyContract", url="https://rpc.dev.buildbear.io/verify/etherscan/civil-hawkeye-bee9aee4" }
 
-polygon_amoy = { key = "${POLYGONSCAN_API}", url="https://api-amoy.polygonscan.com/api" }
-base_sepolia = { key = "${BASESCAN_API}", url ="https://api-sepolia.basescan.org/api/"}
-eth_sepolia = { key = "${ETHERSCAN_API_KEY}", url ="https://api-sepolia.etherscan.io/api"}
-arbitrum_sepolia = { key = "${ARBISCAN_API}", url ="https://api-sepolia.arbiscan.io/api/"}
 
-eth_mainnet = { key = "${ETHERSCAN_API_KEY}", url ="https://api.etherscan.io/api"}
-base_mainnet = { key = "${BASESCAN_API}", url ="https://api.basescan.org/api/"}
-polygon_mainnet = { key = "${POLYGONSCAN_API}", url ="https://api.polygonscan.com/api"}
-arbitrum_mainnet = { key = "${ARBISCAN_API}", url ="https://api.arbiscan.io/api/"}
-# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+# polygon_amoy = { key = "${POLYGONSCAN_API}", url="https://api-amoy.polygonscan.com/api" }
+# base_sepolia = { key = "${BASESCAN_API}", url ="https://api-sepolia.basescan.org/api/"}
+# eth_sepolia = { key = "${ETHERSCAN_API_KEY}", url ="https://api-sepolia.etherscan.io/api"}
+# arbitrum_sepolia = { key = "${ARBISCAN_API}", url ="https://api-sepolia.arbiscan.io/api/"}
+
+# eth_mainnet = { key = "${ETHERSCAN_API_KEY}", url ="https://api.etherscan.io/api"}
+# base_mainnet = { key = "${BASESCAN_API}", url ="https://api.basescan.org/api/"}
+# polygon_mainnet = { key = "${POLYGONSCAN_API}", url ="https://api.polygonscan.com/api"}
+# arbitrum_mainnet = { key = "${ARBISCAN_API}", url ="https://api.arbiscan.io/api/"}
+# # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
 
 [profile.sourcify]
 url= "${VERIFIER_URL}"
+

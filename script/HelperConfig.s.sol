@@ -28,7 +28,7 @@ contract HelperConfig is Script {
     uint256 constant ZKSYNC_SEPOLIA_CHAIN_ID = 300;
     uint256 constant LOCAL_CHAIN_ID = 31337;
     // Update the BURNER_WALLET to your burner wallet!
-    address constant BURNER_WALLET = 0xF275f692127F8372E1178B5A393C6305B50506f8;
+    address constant BURNER_WALLET = 0xD5f930f156541e33F7d8b83da6ad84B4B1775aAc;
     uint256 constant ARBITRUM_MAINNET_CHAIN_ID = 42_161;
     uint256 constant ZKSYNC_MAINNET_CHAIN_ID = 324;
     // address constant FOUNDRY_DEFAULT_WALLET = 0x1804c8AB1F12E6bbf3894d4083f33e07309d1f38;
@@ -42,6 +42,12 @@ contract HelperConfig is Script {
     constructor() {
         networkConfigs[ETH_SEPOLIA_CHAIN_ID] = getEthSepoliaConfig();
         networkConfigs[ETH_MAINNET_CHAIN_ID] = getEthMainnetConfig();
+        networkConfigs[10] = getEthMainnetConfig();
+        networkConfigs[43114] = getEthMainnetConfig();
+        networkConfigs[56] = getEthMainnetConfig();
+        networkConfigs[59144] = getEthMainnetConfig();
+        networkConfigs[8453] = getEthMainnetConfig();
+        networkConfigs[1234] = getEthMainnetConfig();
         networkConfigs[ZKSYNC_MAINNET_CHAIN_ID] = getZkSyncConfig();
         networkConfigs[ARBITRUM_MAINNET_CHAIN_ID] = getArbMainnetConfig();
     }

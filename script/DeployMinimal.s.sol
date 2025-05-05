@@ -39,5 +39,17 @@ contract DeployMinimal is Script {
     }
 }
 
-// forge script script/DeployMinimal.s.sol --rpc-url buildbear --verifier sourcify --verify --verifier-url https://rpc.buildbear.io/verify/sourcify/server/yearning-vision-3f3e4e09
-// forge script script/DeployMinimal.s.sol --rpc-url buildbear --etherscan-api-key "verifyContract" --verifier-url "https://rpc.buildbear.io/verify/etherscan/yearning-vision-3f3e4e09" -vvvv --broadcast --verify --slow
+//  Sourcify
+// forge script script/DeployMinimal.s.sol --rpc-url buildbear --verifier sourcify --verify --verifier-url https://rpc.dev.buildbear.io/verify/sourcify/server/civil-hawkeye-bee9aee4 --broadcast
+
+// Etherscan
+// forge script script/DeployMinimal.s.sol --rpc-url buildbear --etherscan-api-key "verifyContract" --verifier-url "https://rpc.dev.buildbear.io/verify/etherscan/civil-hawkeye-bee9aee4"  -vvvv --broadcast --verify --etherscan-api-key "verifyContract"
+
+/*
+Etherscan - after contract deployment
+forge verify-contract --flatten --watch --constructor-args $(cast abi-encode "constructor(address,address)" "0xD5f930f156541e33F7d8b83da6ad84B4B1775aAc" "0x0000000071727De22E5E9d8BAf0edAc6f37da032") 0x0b781184693288d0Db306ebF41C5Aee82d56D752 MinimalAccount --etherscan-api-key "verifyContract" --verifier-url "https://rpc.dev.buildbear.io/verify/etherscan/civil-hawkeye-bee9aee4" 
+*/
+
+/*
+forge verify-contract --flatten --watch --constructor-args $(cast abi-encode "constructor(address,address)" 0xD5f930f156541e33F7d8b83da6ad84B4B1775aAc 0x0000000071727De22E5E9d8BAf0edAc6f37da032) 0x0b781184693288d0Db306ebF41C5Aee82d56D752 MinimalAccount --verifier sourcify --verifier-url  https://rpc.dev.buildbear.io/verify/sourcify/server/civil-hawkeye-bee9aee4
+*/
