@@ -28,12 +28,12 @@ contract DeployRevert is Script {
 }
 
 //  Sourcify
-// forge script script/DeployRevert.s.sol --rpc-url buildbear --verifier sourcify --verify --verifier-url https://rpc.dev.buildbear.io/verify/sourcify/server/religious-sunfire-14b26c72 --broadcast
+// forge script script/DeployRevert.s.sol --rpc-url buildbear --verifier sourcify --verify --verifier-url https://rpc.buildbear.io/verify/sourcify/server/religious-sunfire-14b26c72 --broadcast
 
 // Etherscan
-// forge script script/DeployRevert.s.sol --rpc-url buildbear --etherscan-api-key "verifyContract" --verifier-url "https://rpc.dev.buildbear.io/verify/etherscan/uzair"  -vvvv --broadcast --verify
+// forge script script/DeployRevert.s.sol --rpc-url buildbear --etherscan-api-key "verifyContract" --verifier-url "https://rpc.buildbear.io/verify/etherscan/uzair"  -vvvv --broadcast --verify
 
 /*
 Etherscan - after contract deployment
-forge verify-contract --flatten --watch --constructor-args $(cast abi-encode "constructor(address,address)" "0x348ED5965e6aF8cc1E2Ff4739F670165194FCe4e" "0x0000000071727De22E5E9d8BAf0edAc6f37da032") 0xFB4D477813df094d260EC2Ff31c6d5076aC1f250 MinimalAccount --etherscan-api-key "verifyContract" --verifier-url "https://rpc.dev.buildbear.io/verify/etherscan/uzair" 
+forge verify-contract --flatten --watch --constructor-args $(cast abi-encode "constructor(address,address)" "0x348ED5965e6aF8cc1E2Ff4739F670165194FCe4e" "0x0000000071727De22E5E9d8BAf0edAc6f37da032") 0xFB4D477813df094d260EC2Ff31c6d5076aC1f250 MinimalAccount --etherscan-api-key "verifyContract" --verifier-url "https://rpc.buildbear.io/verify/etherscan/uzair" 
 */

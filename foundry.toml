@@ -27,7 +27,7 @@ buildbear="${BUILDBEAR_RPC}"
 
 
 [etherscan]
-buildbear = { key = "verifyContract", url="https://rpc.dev.buildbear.io/verify/etherscan/civil-hawkeye-bee9aee4" }
+buildbear = { key = "verifyContract", url="https://rpc.buildbear.io/verify/etherscan/uzair" }
 
 
 # polygon_amoy = { key = "${POLYGONSCAN_API}", url="https://api-amoy.polygonscan.com/api" }
