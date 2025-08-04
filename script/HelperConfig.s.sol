@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.24;
+pragma solidity ^0.8.24;
 
 import {Script, console2} from "forge-std/Script.sol";
 import {EntryPoint} from "lib/account-abstraction/contracts/core/EntryPoint.sol";
@@ -28,7 +28,7 @@ contract HelperConfig is Script {
     uint256 constant ZKSYNC_SEPOLIA_CHAIN_ID = 300;
     uint256 constant LOCAL_CHAIN_ID = 31337;
     // Update the BURNER_WALLET to your burner wallet!
-    address constant BURNER_WALLET = 0x13C379F832d64AD16aca3f4b39127C8e2149D747;
+    address constant BURNER_WALLET = 0x418f3CCcDf8FaFcF4e64294033fcB4A66bB75991;
     uint256 constant ARBITRUM_MAINNET_CHAIN_ID = 42_161;
     uint256 constant ZKSYNC_MAINNET_CHAIN_ID = 324;
     // address constant FOUNDRY_DEFAULT_WALLET = 0x1804c8AB1F12E6bbf3894d4083f33e07309d1f38;
@@ -48,7 +48,9 @@ contract HelperConfig is Script {
         networkConfigs[59144] = getEthMainnetConfig();
         networkConfigs[8453] = getEthMainnetConfig();
         networkConfigs[1234] = getEthMainnetConfig();
+        networkConfigs[27212] = getEthMainnetConfig();
         networkConfigs[ZKSYNC_MAINNET_CHAIN_ID] = getZkSyncConfig();
+        networkConfigs[137] = getPolygonMainnetConfig();
         networkConfigs[ARBITRUM_MAINNET_CHAIN_ID] = getArbMainnetConfig();
     }
 
@@ -107,6 +109,14 @@ contract HelperConfig is Script {
         return NetworkConfig({
             entryPoint: address(0), // supports native AA, so no entry point needed
             usdc: 0x1d17CBcF0D6D143135aE902365D2E5e2A16538D4,
+            account: BURNER_WALLET
+        });
+    }
+
+    function getPolygonMainnetConfig() public pure returns (NetworkConfig memory) {
+        return NetworkConfig({
+            entryPoint: 0x0000000071727De22E5E9d8BAf0edAc6f37da032,
+            usdc: 0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174,
             account: BURNER_WALLET
         });
     }
